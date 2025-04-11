@@ -114,8 +114,8 @@ const getWeather = async () => {
 
     const response = await axios.get<WeatherData>(url);
     weatherData.value = response.data;
-  } catch (e) {
-    const error = e as AxiosError;
+  } catch (err) {
+    const error = err as AxiosError;
     if (error.response?.status === 404) {
       error.value =
         "Cidade não encontrada. Por favor, verifique o nome e tente novamente.";
