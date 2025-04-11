@@ -47,8 +47,8 @@
         </div>
       </div>
 
-      <div class="error" v-if="error">
-        {{ error }}
+      <div class="error" v-if="errorMessage">
+        {{ errorMessage }}
         <div v-if="debugInfo" class="debug-info">
           <p>Detalhes do erro: {{ debugInfo }}</p>
         </div>
@@ -90,19 +90,19 @@ interface WeatherData {
 
 const city = ref("");
 const weatherData = ref<WeatherData | null>(null);
-const error = ref("");
+const errorMessage = ref("");
 const loading = ref(false);
 const debugInfo = ref("");
 
 const getWeather = async () => {
   if (!city.value) {
-    error.value = "Por favor, digite o nome de uma cidade";
+    errorMessage.value = "Por favor, digite o nome de uma cidade";
     return;
   }
 
   try {
     loading.value = true;
-    error.value = "";
+    errorMessage.value = "";
     debugInfo.value = "";
 
     const normalizedCity = city.value.trim().toLowerCase();
@@ -115,19 +115,19 @@ const getWeather = async () => {
     const response = await axios.get<WeatherData>(url);
     weatherData.value = response.data;
   } catch (err) {
-    const error = err as AxiosError;
-    if (error.response?.status === 404) {
-      error.value =
+    const axiosError = err as AxiosError;
+    if (axiosError.response?.status === 404) {
+      errorMessage.value =
         "Cidade não encontrada. Por favor, verifique o nome e tente novamente.";
       debugInfo.value = `Tentando buscar: ${city.value}`;
-    } else if (error.response?.status === 401) {
-      error.value =
+    } else if (axiosError.response?.status === 401) {
+      errorMessage.value =
         "Erro de autenticação. Por favor, tente novamente mais tarde.";
-      debugInfo.value = `Status: 401 - Erro de autenticação\nURL: ${error.config?.url}`;
+      debugInfo.value = `Status: 401 - Erro de autenticação\nURL: ${axiosError.config?.url}`;
     } else {
-      error.value =
+      errorMessage.value =
         "Ocorreu um erro ao buscar os dados. Por favor, tente novamente mais tarde.";
-      debugInfo.value = error.message || "Erro desconhecido";
+      debugInfo.value = axiosError.message || "Erro desconhecido";
     }
     weatherData.value = null;
   } finally {
