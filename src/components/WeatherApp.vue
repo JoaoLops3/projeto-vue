@@ -114,20 +114,24 @@ const getWeather = async () => {
 
     const response = await axios.get<WeatherData>(url);
     weatherData.value = response.data;
-  } catch (err) {
-    const axiosError = err as AxiosError;
-    if (axiosError.response?.status === 404) {
-      errorMessage.value =
-        "Cidade não encontrada. Por favor, verifique o nome e tente novamente.";
-      debugInfo.value = `Tentando buscar: ${city.value}`;
-    } else if (axiosError.response?.status === 401) {
-      errorMessage.value =
-        "Erro de autenticação. Por favor, tente novamente mais tarde.";
-      debugInfo.value = `Status: 401 - Erro de autenticação\nURL: ${axiosError.config?.url}`;
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err)) {
+      if (err.response?.status === 404) {
+        errorMessage.value =
+          "Cidade não encontrada. Por favor, verifique o nome e tente novamente.";
+        debugInfo.value = `Tentando buscar: ${city.value}`;
+      } else if (err.response?.status === 401) {
+        errorMessage.value =
+          "Erro de autenticação. Por favor, tente novamente mais tarde.";
+        debugInfo.value = `Status: 401 - Erro de autenticação\nURL: ${err.config?.url}`;
+      } else {
+        errorMessage.value =
+          "Ocorreu um erro ao buscar os dados. Por favor, tente novamente mais tarde.";
+        debugInfo.value = err.message || "Erro desconhecido";
+      }
     } else {
-      errorMessage.value =
-        "Ocorreu um erro ao buscar os dados. Por favor, tente novamente mais tarde.";
-      debugInfo.value = axiosError.message || "Erro desconhecido";
+      errorMessage.value = "Ocorreu um erro inesperado. Por favor, tente novamente.";
+      debugInfo.value = "Erro desconhecido";
     }
     weatherData.value = null;
   } finally {
