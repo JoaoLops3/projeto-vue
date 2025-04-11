@@ -146,7 +146,8 @@ const getWeather = async () => {
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
+  margin: 20px;
 }
 
 .search-box {
@@ -172,6 +173,7 @@ const getWeather = async () => {
   color: white;
   cursor: pointer;
   transition: background 0.3s;
+  min-width: 50px;
 }
 
 .search-box button:hover {
@@ -185,6 +187,7 @@ const getWeather = async () => {
 .location h2 {
   margin-bottom: 1rem;
   color: #333;
+  font-size: clamp(1.5rem, 2vw, 2rem);
 }
 
 .temperature {
@@ -192,13 +195,13 @@ const getWeather = async () => {
 }
 
 .temperature h1 {
-  font-size: 4rem;
+  font-size: clamp(3rem, 5vw, 5rem);
   margin: 0;
   color: #0083b0;
 }
 
 .temperature img {
-  width: 100px;
+  width: clamp(80px, 15vw, 120px);
   margin: 1rem 0;
 }
 
@@ -208,23 +211,38 @@ const getWeather = async () => {
   margin-top: 2rem;
   padding-top: 2rem;
   border-top: 1px solid #eee;
+  gap: 20px;
 }
 
 .detail {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex: 1;
 }
 
 .detail i {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
   color: #0083b0;
+}
+
+.detail div p:first-child {
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.detail div p:last-child {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  color: #333;
+  font-weight: 500;
 }
 
 .error {
   color: #dc3545;
   text-align: center;
   margin-top: 1rem;
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
 }
 
 .debug-info {
@@ -250,6 +268,39 @@ const getWeather = async () => {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Media Queries para diferentes tamanhos de tela */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+    margin: 10px;
+  }
+
+  .temperature h1 {
+    font-size: 3.5rem;
+  }
+
+  .details {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .detail {
+    justify-content: center;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .container {
+    max-width: 500px;
   }
 }
 </style>
