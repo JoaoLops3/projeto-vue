@@ -64,10 +64,32 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+
+interface WeatherCondition {
+  text: string;
+  icon: string;
+}
+
+interface CurrentWeather {
+  temp_c: number;
+  humidity: number;
+  wind_kph: number;
+  condition: WeatherCondition;
+}
+
+interface Location {
+  name: string;
+  country: string;
+}
+
+interface WeatherData {
+  location: Location;
+  current: CurrentWeather;
+}
 
 const city = ref("");
-const weatherData = ref(null);
+const weatherData = ref<WeatherData | null>(null);
 const error = ref("");
 const loading = ref(false);
 const debugInfo = ref("");
@@ -83,7 +105,6 @@ const getWeather = async () => {
     error.value = "";
     debugInfo.value = "";
 
-    // Limpa e normaliza o nome da cidade
     const normalizedCity = city.value.trim().toLowerCase();
 
     const url = `https://api.weatherapi.com/v1/current.json?key=aef92fe51e95401a992234225251004&q=${encodeURIComponent(
@@ -91,21 +112,22 @@ const getWeather = async () => {
     )}&lang=pt`;
     debugInfo.value = `URL: ${url}`;
 
-    const response = await axios.get(url);
+    const response = await axios.get<WeatherData>(url);
     weatherData.value = response.data;
   } catch (e) {
-    if (e.response?.status === 404) {
+    const error = e as AxiosError;
+    if (error.response?.status === 404) {
       error.value =
         "Cidade não encontrada. Por favor, verifique o nome e tente novamente.";
       debugInfo.value = `Tentando buscar: ${city.value}`;
-    } else if (e.response?.status === 401) {
+    } else if (error.response?.status === 401) {
       error.value =
         "Erro de autenticação. Por favor, tente novamente mais tarde.";
-      debugInfo.value = `Status: 401 - Erro de autenticação\nURL: ${e.config?.url}`;
+      debugInfo.value = `Status: 401 - Erro de autenticação\nURL: ${error.config?.url}`;
     } else {
       error.value =
         "Ocorreu um erro ao buscar os dados. Por favor, tente novamente mais tarde.";
-      debugInfo.value = e.message || "Erro desconhecido";
+      debugInfo.value = error.message || "Erro desconhecido";
     }
     weatherData.value = null;
   } finally {
