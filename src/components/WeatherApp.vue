@@ -149,11 +149,11 @@ const getWeather = async () => {
 
 .container {
   background: rgba(255, 255, 255, 0.95);
-  padding: 3rem;
-  border-radius: 25px;
+  padding: 2rem;
+  border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   width: 100%;
-  max-width: 1200px;
+  max-width: 500px;
   margin: 40px auto;
   border: 1px solid rgba(255, 255, 255, 0.2);
   position: relative;
@@ -162,16 +162,16 @@ const getWeather = async () => {
 
 .search-box {
   display: flex;
-  gap: 15px;
-  margin-bottom: 3rem;
+  gap: 10px;
+  margin-bottom: 2rem;
 }
 
 .search-box input {
   flex: 1;
-  padding: 15px 20px;
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
-  font-size: 18px;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
   outline: none;
   transition: border-color 0.3s;
 }
@@ -181,138 +181,127 @@ const getWeather = async () => {
 }
 
 .search-box button {
-  padding: 15px 30px;
+  padding: 12px;
   background: #0083b0;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   color: white;
   cursor: pointer;
-  transition: all 0.3s;
-  min-width: 60px;
-  font-size: 18px;
+  transition: background 0.3s;
+  min-width: 50px;
 }
 
 .search-box button:hover {
   background: #00b4db;
-  transform: translateY(-2px);
 }
 
 .weather-info {
   text-align: center;
-  padding: 20px;
+  padding: 10px;
 }
 
 .location h2 {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   color: #333;
-  font-size: clamp(1.8rem, 3vw, 3rem);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
 }
 
 .temperature {
-  margin: 3rem 0;
-  padding: 20px;
+  margin: 2rem 0;
+  padding: 15px;
   background: rgba(255, 255, 255, 0.5);
-  border-radius: 20px;
+  border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .temperature h1 {
-  font-size: clamp(4rem, 8vw, 8rem);
+  font-size: clamp(3rem, 6vw, 5rem);
   margin: 0;
   color: #0083b0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .temperature img {
-  width: clamp(100px, 25vw, 200px);
-  margin: 1.5rem 0;
+  width: clamp(80px, 20vw, 120px);
+  margin: 1rem 0;
 }
 
 .temperature p {
-  font-size: clamp(1.2rem, 2vw, 2rem);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
   color: #555;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .details {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
-  margin-top: 3rem;
-  padding-top: 3rem;
-  border-top: 2px solid #eee;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
 }
 
 .detail {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 25px;
+  gap: 15px;
+  padding: 15px;
   background: rgba(255, 255, 255, 0.7);
-  border-radius: 15px;
+  border-radius: 10px;
   transition: all 0.3s;
-  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .detail:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   background: rgba(255, 255, 255, 0.9);
 }
 
 .detail i {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.5rem, 3vw, 2rem);
   color: #0083b0;
 }
 
 .detail div p:first-child {
-  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
   color: #666;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .detail div p:last-child {
-  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  font-size: clamp(1rem, 2vw, 1.2rem);
   color: #333;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .error {
   color: #dc3545;
   text-align: center;
-  margin-top: 2rem;
-  font-size: clamp(1rem, 1.8vw, 1.2rem);
-  padding: 15px;
+  margin-top: 1rem;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  padding: 10px;
   background: rgba(220, 53, 69, 0.1);
-  border-radius: 12px;
-  border: 1px solid rgba(220, 53, 69, 0.2);
+  border-radius: 8px;
 }
 
 .debug-info {
-  font-size: 0.9rem;
-  margin-top: 1rem;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
   color: #666;
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.03);
-  border-radius: 8px;
 }
 
 .loading {
   text-align: center;
-  margin-top: 3rem;
-  padding: 20px;
+  margin-top: 2rem;
 }
 
 .loading i {
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: #0083b0;
   animation: spin 1s linear infinite;
 }
 
 .loading p {
   margin-top: 1rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #555;
 }
 
@@ -355,7 +344,7 @@ const getWeather = async () => {
 
 @media (min-width: 481px) and (max-width: 768px) {
   .container {
-    max-width: 700px;
+    max-width: 500px;
     padding: 2rem;
   }
 
@@ -366,23 +355,23 @@ const getWeather = async () => {
 
 @media (min-width: 769px) and (max-width: 1024px) {
   .container {
-    max-width: 900px;
-    padding: 2.5rem;
+    max-width: 500px;
+    padding: 2rem;
   }
 
   .details {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1025px) {
   .container {
-    max-width: 1200px;
-    padding: 3rem;
+    max-width: 500px;
+    padding: 2rem;
   }
 
   .details {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 </style>
