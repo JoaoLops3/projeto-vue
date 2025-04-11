@@ -88,16 +88,6 @@ interface WeatherData {
   current: CurrentWeather;
 }
 
-interface ApiError {
-  response?: {
-    status: number;
-  };
-  config?: {
-    url?: string;
-  };
-  message?: string;
-}
-
 const city = ref("");
 const weatherData = ref<WeatherData | null>(null);
 const errorMessage = ref("");
@@ -116,28 +106,19 @@ const getWeather = async () => {
     debugInfo.value = "";
 
     const normalizedCity = city.value.trim().toLowerCase();
-
     const url = `https://api.weatherapi.com/v1/current.json?key=aef92fe51e95401a992234225251004&q=${encodeURIComponent(
       normalizedCity
     )}&lang=pt`;
-    debugInfo.value = `URL: ${url}`;
-
-    const response = await axios.get<WeatherData>(url);
+    
+    const response = await axios.get(url);
     weatherData.value = response.data;
-  } catch (err) {
-    const error = err as ApiError;
+  } catch (error: any) {
     if (error.response?.status === 404) {
-      errorMessage.value =
-        "Cidade não encontrada. Por favor, verifique o nome e tente novamente.";
-      debugInfo.value = `Tentando buscar: ${city.value}`;
+      errorMessage.value = "Cidade não encontrada. Por favor, verifique o nome e tente novamente.";
     } else if (error.response?.status === 401) {
-      errorMessage.value =
-        "Erro de autenticação. Por favor, tente novamente mais tarde.";
-      debugInfo.value = `Status: 401 - Erro de autenticação\nURL: ${error.config?.url}`;
+      errorMessage.value = "Erro de autenticação. Por favor, tente novamente mais tarde.";
     } else {
-      errorMessage.value =
-        "Ocorreu um erro ao buscar os dados. Por favor, tente novamente mais tarde.";
-      debugInfo.value = error.message || "Erro desconhecido";
+      errorMessage.value = "Ocorreu um erro ao buscar os dados. Por favor, tente novamente mais tarde.";
     }
     weatherData.value = null;
   } finally {
