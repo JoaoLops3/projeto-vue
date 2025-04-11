@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 interface WeatherCondition {
   text: string;
@@ -110,9 +110,10 @@ const getWeather = async () => {
       normalizedCity
     )}&lang=pt`;
     
-    const response = await axios.get(url);
+    const response = await axios.get<WeatherData>(url);
     weatherData.value = response.data;
-  } catch (error: any) {
+  } catch (err) {
+    const error = err as AxiosError;
     if (error.response?.status === 404) {
       errorMessage.value = "Cidade não encontrada. Por favor, verifique o nome e tente novamente.";
     } else if (error.response?.status === 401) {
