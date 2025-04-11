@@ -114,13 +114,15 @@ const getWeather = async () => {
     weatherData.value = response.data;
   } catch (err) {
     const error = err as AxiosError;
+    let message = "Ocorreu um erro ao buscar os dados. Por favor, tente novamente mais tarde.";
+    
     if (error.response?.status === 404) {
-      errorMessage.value = "Cidade não encontrada. Por favor, verifique o nome e tente novamente.";
+      message = "Cidade não encontrada. Por favor, verifique o nome e tente novamente.";
     } else if (error.response?.status === 401) {
-      errorMessage.value = "Erro de autenticação. Por favor, tente novamente mais tarde.";
-    } else {
-      errorMessage.value = "Ocorreu um erro ao buscar os dados. Por favor, tente novamente mais tarde.";
+      message = "Erro de autenticação. Por favor, tente novamente mais tarde.";
     }
+    
+    errorMessage.value = message;
     weatherData.value = null;
   } finally {
     loading.value = false;
