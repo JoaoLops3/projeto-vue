@@ -133,11 +133,18 @@ const getWeather = async () => {
 <style scoped>
 .weather-app {
   min-height: 100vh;
+  width: 100vw;
   background: linear-gradient(to bottom right, #00b4db, #0083b0);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
 }
 
 .container {
@@ -146,9 +153,11 @@ const getWeather = async () => {
   border-radius: 25px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   width: 100%;
-  max-width: 1000px;
-  margin: 40px;
+  max-width: 1200px;
+  margin: 40px auto;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
 }
 
 .search-box {
@@ -368,7 +377,7 @@ const getWeather = async () => {
 
 @media (min-width: 1025px) {
   .container {
-    max-width: 1000px;
+    max-width: 1200px;
     padding: 3rem;
   }
 
