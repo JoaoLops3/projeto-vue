@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 interface WeatherCondition {
   text: string;
@@ -86,6 +86,16 @@ interface Location {
 interface WeatherData {
   location: Location;
   current: CurrentWeather;
+}
+
+interface ApiError {
+  response?: {
+    status: number;
+  };
+  config?: {
+    url?: string;
+  };
+  message?: string;
 }
 
 const city = ref("");
@@ -114,24 +124,20 @@ const getWeather = async () => {
 
     const response = await axios.get<WeatherData>(url);
     weatherData.value = response.data;
-  } catch (err: unknown) {
-    if (axios.isAxiosError(err)) {
-      if (err.response?.status === 404) {
-        errorMessage.value =
-          "Cidade não encontrada. Por favor, verifique o nome e tente novamente.";
-        debugInfo.value = `Tentando buscar: ${city.value}`;
-      } else if (err.response?.status === 401) {
-        errorMessage.value =
-          "Erro de autenticação. Por favor, tente novamente mais tarde.";
-        debugInfo.value = `Status: 401 - Erro de autenticação\nURL: ${err.config?.url}`;
-      } else {
-        errorMessage.value =
-          "Ocorreu um erro ao buscar os dados. Por favor, tente novamente mais tarde.";
-        debugInfo.value = err.message || "Erro desconhecido";
-      }
+  } catch (err) {
+    const error = err as ApiError;
+    if (error.response?.status === 404) {
+      errorMessage.value =
+        "Cidade não encontrada. Por favor, verifique o nome e tente novamente.";
+      debugInfo.value = `Tentando buscar: ${city.value}`;
+    } else if (error.response?.status === 401) {
+      errorMessage.value =
+        "Erro de autenticação. Por favor, tente novamente mais tarde.";
+      debugInfo.value = `Status: 401 - Erro de autenticação\nURL: ${error.config?.url}`;
     } else {
-      errorMessage.value = "Ocorreu um erro inesperado. Por favor, tente novamente.";
-      debugInfo.value = "Erro desconhecido";
+      errorMessage.value =
+        "Ocorreu um erro ao buscar os dados. Por favor, tente novamente mais tarde.";
+      debugInfo.value = error.message || "Erro desconhecido";
     }
     weatherData.value = null;
   } finally {
